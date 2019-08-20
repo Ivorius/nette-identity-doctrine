@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Majkl578\NetteAddons\Doctrine2Identity\Tests;
 
@@ -9,7 +10,7 @@ use Majkl578\NetteAddons\Doctrine2Identity\Tests\Entities\User;
 class DatabaseLoader
 {
 	/** @var bool */
-	private $isDbPrepared = FALSE;
+	private $isDbPrepared = false;
 
 	/** @var Connection */
 	private $connection;
@@ -17,11 +18,13 @@ class DatabaseLoader
 	/** @var EntityManager */
 	private $entityManager;
 
+
 	public function __construct(Connection $connection, EntityManager $entityManager)
 	{
 		$this->connection = $connection;
 		$this->entityManager = $entityManager;
 	}
+
 
 	public function loadUserTableWithOneItem()
 	{
@@ -35,7 +38,6 @@ class DatabaseLoader
 		$this->entityManager->persist($user);
 		$this->entityManager->flush();
 
-		$this->isDbPrepared = TRUE;
+		$this->isDbPrepared = true;
 	}
-
 }

@@ -1,9 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Majkl578\NetteAddons\Doctrine2Identity\Http;
 
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Majkl578\NetteAddons\Doctrine2Identity\Security\FakeIdentity;
 use Nette\Http\Session;
@@ -18,7 +18,8 @@ class UserStorage extends NetteUserStorage
 	/** @var EntityManagerInterface */
 	private $entityManager;
 
-	public function  __construct(Session $sessionHandler, EntityManagerInterface $entityManager)
+
+	public function __construct(Session $sessionHandler, EntityManagerInterface $entityManager)
 	{
 		parent::__construct($sessionHandler);
 
@@ -33,7 +34,7 @@ class UserStorage extends NetteUserStorage
 	 */
 	public function setIdentity(?IIdentity $identity): NetteUserStorage
 	{
-		if ($identity !== NULL) {
+		if ($identity !== null) {
 			$class = ClassUtils::getClass($identity);
 
 			// we want to convert identity entities into fake identity
@@ -50,6 +51,7 @@ class UserStorage extends NetteUserStorage
 		return parent::setIdentity($identity);
 	}
 
+
 	/**
 	 * Returns current user identity, if any.
 	 */
@@ -65,7 +67,7 @@ class UserStorage extends NetteUserStorage
 			$entity = $this->entityManager->getReference($identity->getClass(), $identity->getId());
 
 			// Only return if we are sure that the target entity exists and implements the correct interface
-			if ($entity && in_array(IIdentity::class, class_implements($entity, false))) {
+			if ($entity && in_array(IIdentity::class, class_implements($entity, false), true)) {
 				return $entity;
 			}
 		}

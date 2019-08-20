@@ -1,20 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Majkl578\NetteAddons\Doctrine2Identity\DI;
 
+use Majkl578\NetteAddons\Doctrine2Identity\Http\UserStorage;
 use Nette\Configurator;
 use Nette\DI\Compiler;
 use Nette\DI\CompilerExtension;
 use Nette\DI\ServiceDefinition;
 use Nette\Security\IUserStorage;
-use Majkl578\NetteAddons\Doctrine2Identity\Http\UserStorage;
 
 /**
  * @author Michael Moravec
  */
 class IdentityExtension extends CompilerExtension
 {
-	const NAME = 'doctrine2identity';
+	public const NAME = 'doctrine2identity';
+
 
 	public function beforeCompile()
 	{
@@ -30,7 +32,7 @@ class IdentityExtension extends CompilerExtension
 	public static function register(Configurator $configurator)
 	{
 		$configurator->onCompile[] = function (Configurator $sender, Compiler $compiler) {
-			$compiler->addExtension(IdentityExtension::NAME, new IdentityExtension());
+			$compiler->addExtension(self::NAME, new self());
 		};
 	}
 }

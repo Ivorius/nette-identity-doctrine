@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Majkl578\NetteAddons\Doctrine2Identity\Tests;
 

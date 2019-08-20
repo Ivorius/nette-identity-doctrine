@@ -1,11 +1,14 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Majkl578\NetteAddons\Doctrine2Identity\Security;
+
+use Nette\Security\IIdentity;
 
 /**
  * @author Michael Moravec
  */
-class FakeIdentity implements \Nette\Security\IIdentity
+class FakeIdentity implements IIdentity
 {
 	/** @var mixed */
 	private $id;
@@ -13,11 +16,13 @@ class FakeIdentity implements \Nette\Security\IIdentity
 	/** @var string */
 	private $class;
 
+
 	public function __construct($id, string $class)
 	{
 		$this->id = $id;
 		$this->class = $class;
 	}
+
 
 	/**
 	 * @return mixed
@@ -27,10 +32,12 @@ class FakeIdentity implements \Nette\Security\IIdentity
 		return $this->id;
 	}
 
+
 	public function getClass(): string
 	{
 		return $this->class;
 	}
+
 
 	public function getRoles(): array
 	{

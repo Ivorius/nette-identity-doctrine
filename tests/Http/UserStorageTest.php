@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+declare(strict_types=1);
 
 namespace Majkl578\NetteAddons\Doctrine2Identity\Tests\Http;
 
@@ -7,15 +8,14 @@ use Majkl578\NetteAddons\Doctrine2Identity\Http\UserStorage;
 use Majkl578\NetteAddons\Doctrine2Identity\Tests\ContainerFactory;
 use Majkl578\NetteAddons\Doctrine2Identity\Tests\DatabaseLoader;
 use Majkl578\NetteAddons\Doctrine2Identity\Tests\Entities\User;
-use Nette;
 use Nette\DI\Container;
 use Nette\Security\Identity;
-use PHPUnit_Framework_TestCase;
 use Nette\Security\IUserStorage;
+use PHPUnit_Framework_TestCase;
 
 class UserStorageTest extends PHPUnit_Framework_TestCase
 {
-	const ENTITY_IDENTITY = 'Majkl578\NetteAddons\Doctrine2Identity\Tests\Entities\User';
+	public const ENTITY_IDENTITY = 'Majkl578\NetteAddons\Doctrine2Identity\Tests\Entities\User';
 
 	/** @var Container */
 	private $container;
@@ -37,6 +37,7 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 		$this->container = $containerFactory->create();
 	}
 
+
 	protected function setUp()
 	{
 		$this->userStorage = $this->container->getByType(IUserStorage::class) ?:
@@ -45,21 +46,25 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 		$this->databaseLoader = $this->container->getByType(DatabaseLoader::class);
 	}
 
+
 	public function testInstance()
 	{
 		$this->assertInstanceOf(IUserStorage::class, $this->userStorage);
 		$this->assertInstanceOf(UserStorage::class, $this->userStorage);
 	}
 
+
 	public function testGetIdentity()
 	{
 		$this->assertNull($this->userStorage->getIdentity());
 	}
 
+
 	public function testSetIdentity()
 	{
 		$this->userStorage->setIdentity(new Identity(1));
 	}
+
 
 	public function testSetEntityProxyIdentity()
 	{
@@ -69,7 +74,7 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 		$this->entityManager->getProxyFactory()->generateProxyClasses($allMetadata);
 
 		/** @var User|null $userProxy */
-		$userProxy = $this->entityManager->getProxyFactory()->getProxy(self::ENTITY_IDENTITY, array('id' => 1));
+		$userProxy = $this->entityManager->getProxyFactory()->getProxy(self::ENTITY_IDENTITY, ['id' => 1]);
 
 		$user = $userRepository->find(1);
 
@@ -82,9 +87,9 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 		$this->assertSame($user, $userIdentity);
 		$this->assertNotSame($userProxy, $userIdentity);
 		$this->assertSame(1, $userIdentity->getId());
-		$this->assertSame(array(), $userIdentity->getRoles());
-
+		$this->assertSame([], $userIdentity->getRoles());
 	}
+
 
 	public function testEntityIdentity()
 	{
@@ -99,6 +104,6 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 		$userIdentity = $userStorage->getIdentity();
 		$this->assertSame($user, $userIdentity);
 		$this->assertSame(1, $userIdentity->getId());
-		$this->assertSame(array(), $userIdentity->getRoles());
+		$this->assertSame([], $userIdentity->getRoles());
 	}
 }
