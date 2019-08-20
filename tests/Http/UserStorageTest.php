@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Majkl578\NetteAddons\Doctrine2Identity\Tests\Http;
 
@@ -30,6 +30,7 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 
 	public function __construct()
 	{
+		parent::__construct();
 		$containerFactory = new ContainerFactory;
 		$this->container = $containerFactory->create();
 	}

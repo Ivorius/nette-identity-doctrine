@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Majkl578\NetteAddons\Doctrine2Identity\Tests\Entities;
 
@@ -24,10 +24,7 @@ class User implements IIdentity
 	 */
 	private $name;
 
-	/**
-	 * @param string $name
-	 */
-	public function __construct($name)
+	public function __construct(string $name)
 	{
 		$this->name = $name;
 	}
@@ -45,16 +42,13 @@ class User implements IIdentity
 	/**
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getRoles()
+	public function getRoles(): array
 	{
-		return array();
+		return [];
 	}
 }

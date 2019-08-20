@@ -1,11 +1,11 @@
-# Nette 2 & Doctrine 2 entities
+# Nette 3 & Doctrine 2 entities
 
 Nette addon for using Doctrine 2 entities directly as Nette identity
 
 
 ## Motivation
 
-If you are using Nette 2 and Doctrine 2 together, you will sooner or later
+If you are using Nette 3 and Doctrine 2 together, you will sooner or later
 want to use some of your entities also as identity, because it is practical.
 
 Fortunately, this addon is here to help you with this task!
@@ -13,9 +13,9 @@ Fortunately, this addon is here to help you with this task!
 
 ## Requirements
 
-- PHP 5.3.2+
-- Nette 2.2+
-- Doctrine ORM 2.3+
+- PHP 7.1+
+- Nette 3.0+
+- Doctrine ORM 2.6+
 
 
 ## Installation

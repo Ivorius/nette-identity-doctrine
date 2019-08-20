@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Majkl578\NetteAddons\Doctrine2Identity\Http;
 
@@ -29,7 +29,7 @@ class UserStorage extends NetteUserStorage
 	 * Sets the user identity.
 	 * @return UserStorage Provides a fluent interface
 	 */
-	public function setIdentity(IIdentity $identity = NULL)
+	public function setIdentity(?IIdentity $identity)
 	{
 		if ($identity !== NULL) {
 			$class = ClassUtils::getClass($identity);
@@ -50,7 +50,6 @@ class UserStorage extends NetteUserStorage
 
 	/**
 	 * Returns current user identity, if any.
-	 * @return IIdentity|NULL
 	 */
 	public function getIdentity(): ?IIdentity
 	{
