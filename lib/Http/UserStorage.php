@@ -32,7 +32,7 @@ class UserStorage extends NetteUserStorage
 	 * @param IIdentity|null $identity
 	 * @return NetteUserStorage Provides a fluent interface
 	 */
-	public function setIdentity(?IIdentity $identity): NetteUserStorage
+	public function setIdentity(?IIdentity $identity = null): NetteUserStorage
 	{
 		if ($identity !== null) {
 			$class = ClassUtils::getClass($identity);
