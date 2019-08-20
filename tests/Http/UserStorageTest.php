@@ -38,7 +38,7 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->userStorage = $this->container->getByType(IUserStorage::class) ?:
 			$this->container->getService('nette.userStorage');
@@ -47,26 +47,26 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	public function testInstance()
+	public function testInstance(): void
 	{
 		$this->assertInstanceOf(IUserStorage::class, $this->userStorage);
 		$this->assertInstanceOf(UserStorage::class, $this->userStorage);
 	}
 
 
-	public function testGetIdentity()
+	public function testGetIdentity(): void
 	{
 		$this->assertNull($this->userStorage->getIdentity());
 	}
 
 
-	public function testSetIdentity()
+	public function testSetIdentity(): void
 	{
 		$this->userStorage->setIdentity(new Identity(1));
 	}
 
 
-	public function testSetEntityProxyIdentity()
+	public function testSetEntityProxyIdentity(): void
 	{
 		$this->databaseLoader->loadUserTableWithOneItem();
 		$userRepository = $this->entityManager->getRepository(self::ENTITY_IDENTITY);
@@ -91,7 +91,7 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	public function testEntityIdentity()
+	public function testEntityIdentity(): void
 	{
 		$this->databaseLoader->loadUserTableWithOneItem();
 		$userRepository = $this->entityManager->getRepository(self::ENTITY_IDENTITY);

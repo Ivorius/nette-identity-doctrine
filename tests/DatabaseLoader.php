@@ -26,7 +26,7 @@ class DatabaseLoader
 	}
 
 
-	public function loadUserTableWithOneItem()
+	public function loadUserTableWithOneItem(): void
 	{
 		if ($this->isDbPrepared) {
 			return;
