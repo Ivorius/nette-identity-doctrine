@@ -6,10 +6,12 @@ use Doctrine\ORM\EntityManager;
 use Majkl578\NetteAddons\Doctrine2Identity\Http\UserStorage;
 use Majkl578\NetteAddons\Doctrine2Identity\Tests\ContainerFactory;
 use Majkl578\NetteAddons\Doctrine2Identity\Tests\DatabaseLoader;
+use Majkl578\NetteAddons\Doctrine2Identity\Tests\Entities\User;
 use Nette;
 use Nette\DI\Container;
 use Nette\Security\Identity;
 use PHPUnit_Framework_TestCase;
+use Nette\Security\IUserStorage;
 
 class UserStorageTest extends PHPUnit_Framework_TestCase
 {
@@ -18,7 +20,7 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 	/** @var Container */
 	private $container;
 
-	/** @var UserStorage */
+	/** @var IUserStorage */
 	private $userStorage;
 
 	/** @var EntityManager */
@@ -37,16 +39,16 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		$this->userStorage = $this->container->getByType('Nette\Security\IUserStorage') ?:
+		$this->userStorage = $this->container->getByType(IUserStorage::class) ?:
 			$this->container->getService('nette.userStorage');
-		$this->entityManager = $this->container->getByType('Doctrine\ORM\EntityManager');
-		$this->databaseLoader = $this->container->getByType('Majkl578\NetteAddons\Doctrine2Identity\Tests\DatabaseLoader');
+		$this->entityManager = $this->container->getByType(EntityManager::class);
+		$this->databaseLoader = $this->container->getByType(DatabaseLoader::class);
 	}
 
 	public function testInstance()
 	{
-		$this->assertInstanceOf('Nette\Security\IUserStorage', $this->userStorage);
-		$this->assertInstanceOf('Majkl578\NetteAddons\Doctrine2Identity\Http\UserStorage', $this->userStorage);
+		$this->assertInstanceOf(IUserStorage::class, $this->userStorage);
+		$this->assertInstanceOf(UserStorage::class, $this->userStorage);
 	}
 
 	public function testGetIdentity()
@@ -65,16 +67,18 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 		$userRepository = $this->entityManager->getRepository(self::ENTITY_IDENTITY);
 		$allMetadata = $this->entityManager->getMetadataFactory()->getAllMetadata();
 		$this->entityManager->getProxyFactory()->generateProxyClasses($allMetadata);
-		$userProxy = $this->entityManager->getProxyFactory()->getProxy(self::ENTITY_IDENTITY, array('id' => 1));
 
+		/** @var User|null $userProxy */
+		$userProxy = $this->entityManager->getProxyFactory()->getProxy(self::ENTITY_IDENTITY, array('id' => 1));
 
 		$user = $userRepository->find(1);
 
 		$userStorage = $this->userStorage->setIdentity($userProxy);
-		$this->assertInstanceOf('Nette\Security\IUserStorage', $userStorage);
-		$this->assertInstanceOf('Majkl578\NetteAddons\Doctrine2Identity\Http\UserStorage', $userStorage);
+		$this->assertInstanceOf(IUserStorage::class, $userStorage);
+		$this->assertInstanceOf(UserStorage::class, $userStorage);
 
 		$userIdentity = $userStorage->getIdentity();
+
 		$this->assertSame($user, $userIdentity);
 		$this->assertNotSame($userProxy, $userIdentity);
 		$this->assertSame(1, $userIdentity->getId());
@@ -89,8 +93,8 @@ class UserStorageTest extends PHPUnit_Framework_TestCase
 		$user = $userRepository->find(1);
 
 		$userStorage = $this->userStorage->setIdentity($user);
-		$this->assertInstanceOf('Nette\Security\IUserStorage', $userStorage);
-		$this->assertInstanceOf('Majkl578\NetteAddons\Doctrine2Identity\Http\UserStorage', $userStorage);
+		$this->assertInstanceOf(IUserStorage::class, $userStorage);
+		$this->assertInstanceOf(UserStorage::class, $userStorage);
 
 		$userIdentity = $userStorage->getIdentity();
 		$this->assertSame($user, $userIdentity);

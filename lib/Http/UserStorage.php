@@ -15,7 +15,7 @@ use Nette\Security\IIdentity;
  */
 class UserStorage extends NetteUserStorage
 {
-	/** @var EntityManager */
+	/** @var EntityManagerInterface */
 	private $entityManager;
 
 	public function  __construct(Session $sessionHandler, EntityManagerInterface $entityManager)
@@ -25,11 +25,13 @@ class UserStorage extends NetteUserStorage
 		$this->entityManager = $entityManager;
 	}
 
+
 	/**
 	 * Sets the user identity.
-	 * @return UserStorage Provides a fluent interface
+	 * @param IIdentity|null $identity
+	 * @return NetteUserStorage Provides a fluent interface
 	 */
-	public function setIdentity(?IIdentity $identity)
+	public function setIdentity(?IIdentity $identity): NetteUserStorage
 	{
 		if ($identity !== NULL) {
 			$class = ClassUtils::getClass($identity);
@@ -59,7 +61,13 @@ class UserStorage extends NetteUserStorage
 		// convert it back into the real entity
 		// returning reference provides potentially lazy behavior
 		if ($identity instanceof FakeIdentity) {
-			return $this->entityManager->getReference($identity->getClass(), $identity->getId());
+			/** @var IIdentity|null $entity */
+			$entity = $this->entityManager->getReference($identity->getClass(), $identity->getId());
+
+			// Only return if we are sure that the target entity exists and implements the correct interface
+			if ($entity && in_array(IIdentity::class, class_implements($entity, false))) {
+				return $entity;
+			}
 		}
 
 		return $identity;

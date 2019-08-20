@@ -1,0 +1,15 @@
+parameters:
+	autoload_directories:
+		 - lib/
+		 - tests/
+
+	paths:
+		- lib/
+		- tests/
+
+	level: 7
+
+
+includes:
+	- ../vendor/phpstan/phpstan-nette/extension.neon
+	- ../vendor/phpstan/phpstan-nette/rules.neon
