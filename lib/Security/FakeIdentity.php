@@ -38,7 +38,7 @@ class FakeIdentity implements \Nette\Security\IIdentity
 	/**
 	 * @return array
 	 */
-	public function getRoles()
+	public function getRoles(): array
 	{
 		return array();
 	}
